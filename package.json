@@ -1,0 +1,28 @@
+{
+  "name": "soundslikeai",
+  "private": true,
+  "packageManager": "npm@11.5.1",
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "trigger"
+  ],
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "schema:guard": "node node_modules/ts-node/dist/bin.js --transpile-only --compiler-options '{\"module\":\"CommonJS\",\"allowImportingTsExtensions\":true}' scripts/schema_guard.ts",
+    "test:scrapers": "node node_modules/ts-node/dist/bin.js --transpile-only --compiler-options '{\"module\":\"CommonJS\",\"allowImportingTsExtensions\":true}' scripts/test_scrapers.ts",
+    "seed:profile": "node node_modules/ts-node/dist/bin.js --transpile-only --compiler-options '{\"module\":\"CommonJS\",\"allowImportingTsExtensions\":true}' scripts/seed_profile.ts",
+    "test:fragment": "node node_modules/ts-node/dist/bin.js --transpile-only --compiler-options '{\"module\":\"CommonJS\",\"allowImportingTsExtensions\":true}' scripts/test_fragment.ts",
+    "test:radar": "node node_modules/ts-node/dist/bin.js --transpile-only --compiler-options '{\"module\":\"CommonJS\",\"allowImportingTsExtensions\":true}' scripts/run_radar_scan.ts"
+  },
+  "devDependencies": {
+    "dotenv": "^16.4.5",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.19.1",
+    "turbo": "^2.0.0",
+    "typescript": "^5.5.4"
+  }
+}

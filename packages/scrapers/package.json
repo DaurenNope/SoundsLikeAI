@@ -1,0 +1,19 @@
+{
+  "name": "@sla/scrapers",
+  "version": "0.1.0",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "dependencies": {
+    "@extractus/article-extractor": "^7.3.0",
+    "cheerio": "^1.0.0-rc.12",
+    "crawlee": "^3.8.0",
+    "playwright": "^1.47.2",
+    "playwright-extra": "^4.3.6",
+    "playwright-core": "^1.47.2",
+    "proxy-agent": "^6.4.0",
+    "puppeteer-extra-plugin-stealth": "^2.11.2",
+    "rss-parser": "^3.12.0",
+    "snoowrap": "^1.23.0",
+    "undici": "^6.19.2"
+  }
+}

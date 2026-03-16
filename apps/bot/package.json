@@ -1,0 +1,18 @@
+{
+  "name": "@sla/bot",
+  "version": "0.1.0",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "dev": "NODE_TLS_REJECT_UNAUTHORIZED=0 DOTENV_CONFIG_PATH=../../.env tsx src/index.ts"
+  },
+  "dependencies": {
+    "@sla/db": "0.1.0",
+    "@sla/ingest": "0.1.0",
+    "@sla/pipeline": "0.1.0",
+    "dotenv": "^16.4.5",
+    "grammy": "^1.28.0",
+    "hono": "^4.4.11",
+    "@hono/node-server": "^1.12.0"
+  }
+}

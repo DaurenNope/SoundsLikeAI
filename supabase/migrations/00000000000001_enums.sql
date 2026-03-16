@@ -1,0 +1,10 @@
+create type fragment_type as enum ('text','voice','link','image','document');
+create type fragment_status as enum ('raw','processing','drafted','failed');
+create type draft_status as enum ('ready','approved','trashed','published','failed');
+create type feedback_action as enum ('approved','edited','trashed');
+create type signal_status as enum ('raw','scored','queued','drafted','ignored');
+create type platform_type as enum ('twitter','threads','linkedin','newsletter');
+create type source_type as enum ('rss','twitter','reddit','newsletter','podcast','youtube');
+create type voice_sample_source as enum ('manual','approved_draft','imported');
+create type touchpoint_type as enum ('person','book','film','podcast','concept','publication');
+create type knowledge_source_type as enum ('book','podcast','person','article','quote','transcript');

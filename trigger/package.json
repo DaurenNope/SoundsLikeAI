@@ -1,0 +1,13 @@
+{
+  "name": "@sla/trigger",
+  "version": "0.1.0",
+  "main": "jobs/index.ts",
+  "types": "jobs/index.ts",
+  "dependencies": {
+    "@sla/db": "0.1.0",
+    "@sla/pipeline": "0.1.0",
+    "@sla/scrapers": "0.1.0",
+    "@sla/ai": "0.1.0",
+    "@trigger.dev/sdk": "^3.0.0"
+  }
+}
