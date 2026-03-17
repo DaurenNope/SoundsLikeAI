@@ -20,14 +20,29 @@ type RadarSourceSeed = {
 
 const SOURCE_SEED: RadarSourceSeed[] = [
   {
-    name: 'Cloudflare Blog',
+    name: 'HubSpot Sales Blog',
     type: 'rss',
-    url: 'https://blog.cloudflare.com/rss/',
+    url: 'https://blog.hubspot.com/sales/rss.xml',
   },
   {
-    name: 'Datadog Blog',
+    name: 'HubSpot Service Blog',
     type: 'rss',
-    url: 'https://www.datadoghq.com/blog/rss.xml',
+    url: 'https://blog.hubspot.com/service/rss.xml',
+  },
+  {
+    name: 'HubSpot Marketing Blog',
+    type: 'rss',
+    url: 'https://blog.hubspot.com/marketing/rss.xml',
+  },
+  {
+    name: 'SalesforceBen',
+    type: 'rss',
+    url: 'https://www.salesforceben.com/feed/',
+  },
+  {
+    name: 'Zoho Blog',
+    type: 'rss',
+    url: 'https://www.zoho.com/blog/feed/',
   },
   {
     name: 'Intercom Blog',
@@ -40,34 +55,19 @@ const SOURCE_SEED: RadarSourceSeed[] = [
     url: 'https://workos.com/blog/rss.xml',
   },
   {
-    name: 'SaaStr',
+    name: 'Airtable Blog',
     type: 'rss',
-    url: 'https://www.saastr.com/feed/',
+    url: 'https://blog.airtable.com/rss/',
   },
   {
-    name: 'Stripe Blog',
+    name: 'Process Street Blog',
     type: 'rss',
-    url: 'https://stripe.com/blog/feed.rss',
+    url: 'https://www.process.st/blog/feed/',
   },
   {
-    name: 'Sentry Blog',
+    name: 'RingCentral Blog',
     type: 'rss',
-    url: 'https://blog.sentry.io/feed.xml',
-  },
-  {
-    name: 'GitLab Blog',
-    type: 'rss',
-    url: 'https://about.gitlab.com/atom.xml',
-  },
-  {
-    name: 'Square Developer Blog',
-    type: 'rss',
-    url: 'https://developer.squareup.com/blog/rss.xml',
-  },
-  {
-    name: 'GitHub Blog',
-    type: 'rss',
-    url: 'https://github.blog/feed/',
+    url: 'https://www.ringcentral.com/us/en/blog/feed/',
   },
   {
     name: 'AWS Enterprise Strategy',
@@ -75,19 +75,19 @@ const SOURCE_SEED: RadarSourceSeed[] = [
     url: 'https://aws.amazon.com/blogs/enterprise-strategy/feed/',
   },
   {
-    name: 'Spotify Engineering',
-    type: 'rss',
-    url: 'https://engineering.atspotify.com/feed/',
+    name: 'r/sales',
+    type: 'reddit',
+    config: { subreddit: 'sales' },
   },
   {
-    name: 'r/devops',
+    name: 'r/salesops',
     type: 'reddit',
-    config: { subreddit: 'devops' },
+    config: { subreddit: 'salesops' },
   },
   {
-    name: 'r/sysadmin',
+    name: 'r/operations',
     type: 'reddit',
-    config: { subreddit: 'sysadmin' },
+    config: { subreddit: 'operations' },
   },
   {
     name: 'r/SaaS',
@@ -95,24 +95,14 @@ const SOURCE_SEED: RadarSourceSeed[] = [
     config: { subreddit: 'SaaS' },
   },
   {
-    name: 'Y Combinator (Twitter)',
+    name: 'HubSpot (Twitter)',
     type: 'twitter',
-    config: { handle: 'ycombinator' },
+    config: { handle: 'HubSpot' },
   },
   {
-    name: 'SaaStr (Twitter)',
+    name: 'Salesforce (Twitter)',
     type: 'twitter',
-    config: { handle: 'saastr' },
-  },
-  {
-    name: 'Changelog Podcast',
-    type: 'podcast',
-    url: 'https://changelog.com/podcast/feed',
-  },
-  {
-    name: 'Y Combinator (YouTube)',
-    type: 'youtube',
-    url: 'https://www.youtube.com/feeds/videos.xml?channel_id=UCcefcZRL2oaA_uBNeo5UOWg',
+    config: { handle: 'salesforce' },
   },
 ];
 
