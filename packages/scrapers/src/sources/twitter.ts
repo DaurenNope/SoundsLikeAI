@@ -9,8 +9,9 @@ const timeoutMs = Number(process.env.RSS_TIMEOUT_MS ?? 10000);
 const parser = new Parser({
   timeout: timeoutMs,
   headers: {
-    'User-Agent': 'Mozilla/5.0 (compatible; SoundsLikeAI/1.0)',
-    Accept: 'application/rss+xml, application/xml, text/xml',
+    'User-Agent':
+      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+    Accept: 'application/rss+xml, application/atom+xml, application/xml, text/xml, */*',
   },
   requestOptions: proxyAgent ? { agent: proxyAgent } : undefined,
 });

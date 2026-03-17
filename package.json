@@ -16,7 +16,8 @@
     "test:scrapers": "node node_modules/ts-node/dist/bin.js --transpile-only --compiler-options '{\"module\":\"CommonJS\",\"allowImportingTsExtensions\":true}' scripts/test_scrapers.ts",
     "seed:profile": "node node_modules/ts-node/dist/bin.js --transpile-only --compiler-options '{\"module\":\"CommonJS\",\"allowImportingTsExtensions\":true}' scripts/seed_profile.ts",
     "test:fragment": "node node_modules/ts-node/dist/bin.js --transpile-only --compiler-options '{\"module\":\"CommonJS\",\"allowImportingTsExtensions\":true}' scripts/test_fragment.ts",
-    "test:radar": "node node_modules/ts-node/dist/bin.js --transpile-only --compiler-options '{\"module\":\"CommonJS\",\"allowImportingTsExtensions\":true}' scripts/run_radar_scan.ts"
+    "test:radar": "node node_modules/ts-node/dist/bin.js --transpile-only --compiler-options '{\"module\":\"CommonJS\",\"allowImportingTsExtensions\":true}' scripts/run_radar_scan.ts",
+    "reset:radar-sources": "node node_modules/ts-node/dist/bin.js --transpile-only --compiler-options '{\"module\":\"CommonJS\",\"allowImportingTsExtensions\":true}' scripts/reset_radar_sources.ts"
   },
   "devDependencies": {
     "dotenv": "^16.4.5",

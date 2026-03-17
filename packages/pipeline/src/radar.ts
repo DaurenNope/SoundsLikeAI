@@ -18,7 +18,68 @@ export async function runRadarScan(options?: {
   const maxItems = Number(process.env.RADAR_MAX_ITEMS ?? 0);
   const scoreThreshold = Number(process.env.RADAR_SCORE_THRESHOLD ?? 75);
   const requireEmbeddings = (process.env.RADAR_REQUIRE_EMBEDDINGS ?? 'true') !== 'false';
+  const noEmbeddingsScore = Number(process.env.RADAR_NO_EMBEDDINGS_SCORE ?? 0);
   const queueOnly = (process.env.RADAR_QUEUE_ONLY ?? 'true') !== 'false';
+  const requireKeywords = (process.env.RADAR_REQUIRE_KEYWORDS ?? 'true') !== 'false';
+  const keywordList =
+    process.env.RADAR_KEYWORDS?.split(',').map((k) => k.trim()).filter(Boolean) ?? [
+      'automation',
+      'ops',
+      'operations',
+      'devops',
+      'revops',
+      'sales ops',
+      'support ops',
+      'customer success',
+      'workflow',
+      'integration',
+      'api',
+      'sync',
+      'pipeline',
+      'deployment',
+      'release',
+      'ci/cd',
+      'cicd',
+      'incident',
+      'reliability',
+      'sre',
+      'observability',
+      'monitoring',
+      'logging',
+      'on-call',
+      'runbook',
+      'infrastructure',
+      'platform',
+      'architecture',
+      'migration',
+      'cloud',
+      'security',
+      'compliance',
+      'audit',
+      'governance',
+      'identity',
+      'access',
+      'sso',
+      'auth',
+      'network',
+      'data',
+      'internal tool',
+      'backoffice',
+      'ticketing',
+      'crm',
+      'erp',
+      'billing',
+      'procurement',
+      'b2b',
+      'saas',
+      'ai agent',
+      'agentic',
+      'onboarding',
+      'data sync',
+      'manual process',
+      'automation platform',
+      'productivity',
+    ];
   const embeddingsAvailable = Boolean(process.env.EMBEDDINGS_SERVICE_URL);
   let query = supabase.from('radar_sources').select('*').eq('active', true);
   if (options?.userId) {
@@ -68,13 +129,22 @@ export async function runRadarScan(options?: {
 
     for (const item of limitedItems) {
       try {
+        const text = `${item.title ?? ''} ${item.content ?? ''}`.toLowerCase();
+        if (requireKeywords) {
+          const hasKeyword = keywordList.some((kw) => kw && text.includes(kw));
+          if (!hasKeyword) {
+            continue;
+          }
+        }
         let embedding: number[] | null = null;
         let score = { score: 0, reasoning: { fallback: 'no_embeddings' } };
         if (embeddingsAvailable) {
-          embedding = await embed(`${item.title} ${item.content}`);
+          embedding = await embed(text);
           score = await scoreSignal(source.persona_id, embedding);
         } else if (requireEmbeddings) {
           continue;
+        } else {
+          score = { score: noEmbeddingsScore, reasoning: { fallback: 'no_embeddings' } };
         }
         if (score.score < scoreThreshold) continue;
 

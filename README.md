@@ -45,6 +45,10 @@ RADAR_MAX_ITEMS=3
 RADAR_SCORE_THRESHOLD=75
 RADAR_REQUIRE_EMBEDDINGS=true
 RADAR_QUEUE_ONLY=true
+RADAR_REQUIRE_KEYWORDS=true
+RADAR_KEYWORDS=automation,ops,operations,devops,revops,sales ops,support ops,customer success,workflow,integration,api,sync,pipeline,deployment,release,ci/cd,cicd,incident,reliability,sre,observability,monitoring,logging,on-call,runbook,infrastructure,platform,architecture,migration,cloud,security,compliance,audit,governance,identity,access,sso,auth,network,data,internal tool,backoffice,ticketing,crm,erp,billing,procurement,b2b,saas,ai agent,agentic,onboarding,data sync,manual process,automation platform,productivity
+RADAR_EMPTY_VOICE_SCORE=80
+RADAR_NO_EMBEDDINGS_SCORE=80
 RADAR_MAX_DRAFTS_PER_RUN=10
 RADAR_SKIP_DRAFTS=false
 ```
