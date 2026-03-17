@@ -31,9 +31,23 @@ async function scrapeWithPlaywright(url: string) {
 }
 
 async function scrapeWithLightpanda(url: string) {
-  const cdpUrl = process.env.LIGHTPANDA_CDP_URL;
+  const token = process.env.LIGHTPANDA_TOKEN;
+  const region = process.env.LIGHTPANDA_REGION ?? 'euwest';
+  const proxy = process.env.LIGHTPANDA_PROXY;
+  const fromToken = token
+    ? `wss://${region}.cloud.lightpanda.io/ws?token=${token}&browser=lightpanda${
+        proxy ? `&proxy=${proxy}` : ''
+      }`
+    : null;
+  const rawUrl = process.env.LIGHTPANDA_CDP_URL ?? fromToken ?? '';
+  const cdpUrl = rawUrl.trim();
   if (!cdpUrl) {
     throw new Error('LIGHTPANDA_CDP_URL is not set');
+  }
+  try {
+    new URL(cdpUrl);
+  } catch {
+    throw new Error('LIGHTPANDA_CDP_URL is invalid');
   }
   const browser = await playwrightChromium.connectOverCDP(cdpUrl);
   try {

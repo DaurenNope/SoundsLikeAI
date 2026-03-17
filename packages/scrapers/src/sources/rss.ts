@@ -3,10 +3,16 @@ import { getProxyAgent } from '../utils/proxy';
 
 const proxyAgent = getProxyAgent();
 
-const timeoutMs = Number(process.env.RSS_TIMEOUT_MS ?? 10000);
+const timeoutMs = Number(process.env.RSS_TIMEOUT_MS ?? 20000);
 
 const parser = new Parser({
   timeout: timeoutMs,
+  xml2js: {
+    strict: false,
+    normalize: true,
+    normalizeTags: false,
+    trim: true,
+  },
   headers: {
     'User-Agent': 'Mozilla/5.0 (compatible; SoundsLikeAI/1.0)',
     Accept: 'application/rss+xml, application/xml, text/xml',
