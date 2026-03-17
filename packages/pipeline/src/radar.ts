@@ -31,6 +31,8 @@ export async function runRadarScan(options?: {
       'sales ops',
       'support ops',
       'customer success',
+      'sales',
+      'revenue',
       'workflow',
       'integration',
       'api',
@@ -79,6 +81,13 @@ export async function runRadarScan(options?: {
       'manual process',
       'automation platform',
       'productivity',
+      'автоматизация',
+      'операции',
+      'продажи',
+      'внедрение',
+      'процессы',
+      'crm',
+      'erp',
     ];
   const embeddingsAvailable = Boolean(process.env.EMBEDDINGS_SERVICE_URL);
   let query = supabase.from('radar_sources').select('*').eq('active', true);

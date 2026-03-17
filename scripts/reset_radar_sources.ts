@@ -30,11 +30,6 @@ const SOURCE_SEED: RadarSourceSeed[] = [
     url: 'https://blog.hubspot.com/service/rss.xml',
   },
   {
-    name: 'HubSpot Marketing Blog',
-    type: 'rss',
-    url: 'https://blog.hubspot.com/marketing/rss.xml',
-  },
-  {
     name: 'SalesforceBen',
     type: 'rss',
     url: 'https://www.salesforceben.com/feed/',
@@ -73,6 +68,16 @@ const SOURCE_SEED: RadarSourceSeed[] = [
     name: 'AWS Enterprise Strategy',
     type: 'rss',
     url: 'https://aws.amazon.com/blogs/enterprise-strategy/feed/',
+  },
+  {
+    name: 'vc.ru (CIS Business Tech)',
+    type: 'rss',
+    url: 'https://vc.ru/rss/all',
+  },
+  {
+    name: 'Habr (CIS Tech/Business)',
+    type: 'rss',
+    url: 'https://habr.com/ru/rss/all/all/',
   },
   {
     name: 'r/sales',
