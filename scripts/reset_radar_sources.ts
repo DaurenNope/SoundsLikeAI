@@ -99,16 +99,6 @@ const SOURCE_SEED: RadarSourceSeed[] = [
     type: 'reddit',
     config: { subreddit: 'SaaS' },
   },
-  {
-    name: 'HubSpot (Twitter)',
-    type: 'twitter',
-    config: { handle: 'HubSpot' },
-  },
-  {
-    name: 'Salesforce (Twitter)',
-    type: 'twitter',
-    config: { handle: 'salesforce' },
-  },
 ];
 
 async function main() {
