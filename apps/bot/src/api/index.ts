@@ -9,6 +9,7 @@ import { bookmarksRoute } from './routes/bookmarks';
 import { collectionRoute } from './routes/collection';
 import { llmRoute } from './routes/llm';
 import { collectionStateRoute } from './routes/collection-state';
+import { personaReportsRoute } from './routes/persona-reports';
 
 export function registerApiRoutes(app: Hono) {
   app.get('/health', (c) => c.json({ ok: true }));
@@ -20,6 +21,7 @@ export function registerApiRoutes(app: Hono) {
   app.route('/radar-sources', radarSourcesRoute);
   app.route('/collection', collectionRoute);
   app.route('/collection-state', collectionStateRoute);
+  app.route('/persona-reports', personaReportsRoute);
   app.route('/llm', llmRoute);
   app.route('/webhook', webhookRoute);
 }

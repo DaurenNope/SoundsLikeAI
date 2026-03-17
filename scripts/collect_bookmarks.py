@@ -5,6 +5,12 @@ import os
 import sys
 from pathlib import Path
 
+try:
+    from dotenv import load_dotenv
+except Exception:
+    load_dotenv = None
+from pathlib import Path
+
 
 def add_beyondlines_path() -> Path:
     repo_path = os.getenv("BEYONDLINES_MVP_PATH")
@@ -17,11 +23,23 @@ def add_beyondlines_path() -> Path:
     return root
 
 
+def load_env_files(root: Path) -> None:
+    if not load_dotenv:
+        return
+    # Load local repo env first, then Beyondlines env (if any)
+    load_dotenv(Path.cwd() / ".env", override=False)
+    load_dotenv(root / ".env", override=False)
+
+
 def env(name: str, default: str | None = None) -> str | None:
     value = os.getenv(name)
     if value is None or value == "":
         return default
     return value
+
+
+# Redirect noisy stdout from dependencies to stderr; we'll emit JSON on the real stdout.
+sys.stdout = sys.stderr
 
 
 def normalize_post(post, platform: str) -> dict:
@@ -141,7 +159,8 @@ def collect_reddit(limit: int) -> list[dict]:
 
 
 async def main() -> None:
-    add_beyondlines_path()
+    root = add_beyondlines_path()
+    load_env_files(root)
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--platform", choices=["twitter", "threads", "reddit", "all"], default="all")
@@ -158,7 +177,7 @@ async def main() -> None:
     if args.platform in ("all", "reddit"):
         results.extend(collect_reddit(args.limit))
 
-    print(json.dumps(results))
+    print(json.dumps(results), file=sys.__stdout__)
 
 
 if __name__ == "__main__":

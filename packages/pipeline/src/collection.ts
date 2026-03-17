@@ -70,9 +70,32 @@ function runCollector(platform: CollectionPlatform, limit: number, stopAt?: stri
         return;
       }
       try {
-        const parsed = JSON.parse(stdout || '[]');
-        resolve(Array.isArray(parsed) ? parsed : []);
-      } catch (err) {
+        const raw = stdout || '';
+        const direct = JSON.parse(raw || '[]');
+        resolve(Array.isArray(direct) ? direct : []);
+      } catch {
+        // Fallback: extract last JSON array from noisy stdout
+        const raw = stdout || '';
+        const start = raw.lastIndexOf('[');
+        const end = raw.lastIndexOf(']');
+        if (start !== -1 && end !== -1 && end > start) {
+          try {
+            const slice = raw.slice(start, end + 1);
+            const parsed = JSON.parse(slice);
+            resolve(Array.isArray(parsed) ? parsed : []);
+            return;
+          } catch {
+            // fall through
+          }
+        }
+        try {
+          const logDir = path.resolve(process.cwd(), 'logs');
+          fs.mkdirSync(logDir, { recursive: true });
+          fs.writeFileSync(path.join(logDir, 'collector_last_stdout.txt'), stdout || '');
+          fs.writeFileSync(path.join(logDir, 'collector_last_stderr.txt'), stderr || '');
+        } catch {
+          // ignore logging failures
+        }
         reject(new Error('collector output was not valid JSON'));
       }
     });

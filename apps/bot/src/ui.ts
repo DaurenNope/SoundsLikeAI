@@ -420,6 +420,15 @@ const html = `<!doctype html>
         </div>
 
         <div class="panel">
+          <h2>Resource Report</h2>
+          <div class="actions" style="margin-top: 16px;">
+            <button id="refreshReport">Refresh report</button>
+            <button class="secondary" id="generateReport">Generate report</button>
+          </div>
+          <div class="drafts" id="resourceReport"></div>
+        </div>
+
+        <div class="panel">
           <h2>Bookmarks</h2>
           <div class="row">
             <label>
@@ -542,6 +551,7 @@ const html = `<!doctype html>
       const bookmarkLimitInput = document.getElementById('bookmarkLimit');
       const bookmarksEl = document.getElementById('bookmarks');
       const collectionStateEl = document.getElementById('collectionState');
+      const resourceReportEl = document.getElementById('resourceReport');
       const fragmentStatusFilter = document.getElementById('fragmentStatusFilter');
       const fragmentTypeFilter = document.getElementById('fragmentTypeFilter');
       const fragmentLimitInput = document.getElementById('fragmentLimit');
@@ -792,6 +802,42 @@ const html = `<!doctype html>
         });
       }
 
+      function renderResourceReport(payload) {
+        if (!resourceReportEl) return;
+        resourceReportEl.innerHTML = '';
+        if (!payload || !payload.report) {
+          resourceReportEl.innerHTML = '<div class="empty">No report yet.</div>';
+          return;
+        }
+        const report = payload.report;
+        const generatedAt = payload.generated_at
+          ? new Date(payload.generated_at).toLocaleString()
+          : '';
+        const sources = report.source_candidates || [];
+        const pillars = report.content_pillars || [];
+
+        const card = document.createElement('article');
+        card.className = 'card';
+        card.innerHTML = `
+          <div class="meta">
+            <span class="pill">Generated ${generatedAt}</span>
+          </div>
+          <div><strong>Target:</strong> ${report.target_audience || 'n/a'}</div>
+          <div><strong>Positioning:</strong> ${report.positioning || 'n/a'}</div>
+          <div style="margin-top: 10px;"><strong>Pillars</strong></div>
+          <ul>${pillars.map((p) => `<li>${p}</li>`).join('')}</ul>
+          <div style="margin-top: 10px;"><strong>Sources seeded</strong></div>
+          <ul>${sources
+            .map((s) => {
+              const label = `${(s.type || '').toUpperCase()} · ${s.name}`;
+              const target = s.url || (s.config && s.config.subreddit ? `r/${s.config.subreddit}` : '');
+              return `<li>${label} ${target ? '— ' + target : ''}</li>`;
+            })
+            .join('')}</ul>
+        `;
+        resourceReportEl.appendChild(card);
+      }
+
       function renderFragments(items) {
         fragmentsEl.innerHTML = '';
         if (!items || items.length === 0) {
@@ -946,6 +992,44 @@ const html = `<!doctype html>
             { method: 'GET' }
           );
           renderCollectionState(payload.states || []);
+        } catch (err) {
+          setStatus(err.message, 'error');
+        }
+      }
+
+      async function loadResourceReport() {
+        const userId = userIdInput.value.trim();
+        const personaId = personaIdInput.value.trim();
+        if (!userId) return;
+        if (!personaId) {
+          setStatus('Persona ID is required to load resource report.', 'error');
+          return;
+        }
+        persistInputs();
+        try {
+          const payload = await api(
+            '/persona-reports?user_id=' + userId + '&persona_id=' + personaId,
+            { method: 'GET' }
+          );
+          renderResourceReport(payload);
+        } catch (err) {
+          setStatus(err.message, 'error');
+        }
+      }
+
+      async function generateResourceReport() {
+        const personaId = personaIdInput.value.trim();
+        if (!personaId) {
+          setStatus('Persona ID is required to generate report.', 'error');
+          return;
+        }
+        try {
+          await api('/persona-reports/generate', {
+            method: 'POST',
+            body: { persona_id: personaId },
+          });
+          await loadResourceReport();
+          setStatus('Resource report generated.', 'ok');
         } catch (err) {
           setStatus(err.message, 'error');
         }
@@ -1259,6 +1343,8 @@ const html = `<!doctype html>
       document
         .getElementById('refreshCollectionState')
         .addEventListener('click', loadCollectionState);
+      document.getElementById('refreshReport').addEventListener('click', loadResourceReport);
+      document.getElementById('generateReport').addEventListener('click', generateResourceReport);
       document.getElementById('loadBookmarks').addEventListener('click', loadBookmarks);
       document.getElementById('refreshBookmarks').addEventListener('click', loadBookmarks);
       document.getElementById('refreshLlmUsage').addEventListener('click', loadLlmUsage);
@@ -1271,6 +1357,7 @@ const html = `<!doctype html>
         loadSources();
         loadSignalItems();
         loadCollectionState();
+        loadResourceReport();
         loadBookmarks();
         loadFragments();
         loadDrafts();
