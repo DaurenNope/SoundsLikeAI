@@ -39,6 +39,16 @@ curl "http://localhost:3001/drafts?user_id=<profile-uuid>" \
 
 Telegram is optional. To enable it later, set `TELEGRAM_BOT_TOKEN` and `TELEGRAM_BOT_DISABLED=false`.
 
+## Radar Controls (Env)
+```
+RADAR_MAX_ITEMS=3
+RADAR_SCORE_THRESHOLD=75
+RADAR_REQUIRE_EMBEDDINGS=true
+RADAR_QUEUE_ONLY=true
+RADAR_MAX_DRAFTS_PER_RUN=10
+RADAR_SKIP_DRAFTS=false
+```
+
 ## Structure (monorepo)
 - `apps/bot/`: Telegram bot + Hono API
 - `packages/*`: shared packages (db, ai, pipeline, scrapers, publisher)

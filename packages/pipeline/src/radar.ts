@@ -17,6 +17,8 @@ export async function runRadarScan(options?: {
 }) {
   const maxItems = Number(process.env.RADAR_MAX_ITEMS ?? 0);
   const scoreThreshold = Number(process.env.RADAR_SCORE_THRESHOLD ?? 75);
+  const requireEmbeddings = (process.env.RADAR_REQUIRE_EMBEDDINGS ?? 'true') !== 'false';
+  const queueOnly = (process.env.RADAR_QUEUE_ONLY ?? 'true') !== 'false';
   const embeddingsAvailable = Boolean(process.env.EMBEDDINGS_SERVICE_URL);
   let query = supabase.from('radar_sources').select('*').eq('active', true);
   if (options?.userId) {
@@ -67,10 +69,12 @@ export async function runRadarScan(options?: {
     for (const item of limitedItems) {
       try {
         let embedding: number[] | null = null;
-        let score = { score: 80, reasoning: { fallback: 'no_embeddings' } };
+        let score = { score: 0, reasoning: { fallback: 'no_embeddings' } };
         if (embeddingsAvailable) {
           embedding = await embed(`${item.title} ${item.content}`);
           score = await scoreSignal(source.persona_id, embedding);
+        } else if (requireEmbeddings) {
+          continue;
         }
         if (score.score < scoreThreshold) continue;
 
@@ -93,6 +97,10 @@ export async function runRadarScan(options?: {
 
         if (signalErr || !signal) {
           console.warn('[Radar] signal insert failed', signalErr?.message);
+          continue;
+        }
+
+        if (queueOnly) {
           continue;
         }
 
