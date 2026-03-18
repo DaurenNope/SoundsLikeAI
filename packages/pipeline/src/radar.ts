@@ -20,6 +20,7 @@ export async function runRadarScan(options?: {
   const requireEmbeddings = (process.env.RADAR_REQUIRE_EMBEDDINGS ?? 'true') !== 'false';
   const noEmbeddingsScore = Number(process.env.RADAR_NO_EMBEDDINGS_SCORE ?? 0);
   const queueOnly = (process.env.RADAR_QUEUE_ONLY ?? 'true') !== 'false';
+  const ingestionNoDrafts = (process.env.INGESTION_NO_DRAFTS ?? 'true') !== 'false';
   const requireKeywords = (process.env.RADAR_REQUIRE_KEYWORDS ?? 'true') !== 'false';
   const keywordList =
     process.env.RADAR_KEYWORDS?.split(',').map((k) => k.trim()).filter(Boolean) ?? [
@@ -169,7 +170,7 @@ export async function runRadarScan(options?: {
             embedding,
             relevance_score: score.score,
             score_reasoning: score.reasoning,
-            status: 'queued',
+            status: 'raw',
           })
           .select()
           .single();
@@ -179,7 +180,7 @@ export async function runRadarScan(options?: {
           continue;
         }
 
-        if (queueOnly) {
+        if (queueOnly || ingestionNoDrafts) {
           continue;
         }
 

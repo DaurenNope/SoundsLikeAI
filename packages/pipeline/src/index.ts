@@ -6,3 +6,4 @@ export * from './radar';
 export * from './collection';
 export * from './persona-report';
 export * from './signal-queue';
+export * from './signal-qc';

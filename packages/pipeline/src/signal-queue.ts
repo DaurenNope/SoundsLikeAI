@@ -7,7 +7,8 @@ export async function processQueuedSignals(options?: {
   limit?: number;
   skipDrafts?: boolean;
 }) {
-  const limit = options?.limit ?? Number(process.env.RADAR_MAX_DRAFTS_PER_RUN ?? 10);
+  const limit =
+    options?.limit ?? Number(process.env.DRAFT_MAX_ITEMS ?? process.env.RADAR_MAX_DRAFTS_PER_RUN ?? 10);
   const skipDrafts = options?.skipDrafts ?? (process.env.RADAR_SKIP_DRAFTS ?? 'false') === 'true';
 
   let query = supabase

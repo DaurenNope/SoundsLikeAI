@@ -18,7 +18,11 @@
     "test:fragment": "node node_modules/ts-node/dist/bin.js --transpile-only --compiler-options '{\"module\":\"CommonJS\",\"allowImportingTsExtensions\":true}' scripts/test_fragment.ts",
     "test:radar": "node node_modules/ts-node/dist/bin.js --transpile-only --compiler-options '{\"module\":\"CommonJS\",\"allowImportingTsExtensions\":true}' scripts/run_radar_scan.ts",
     "reset:radar-sources": "node node_modules/ts-node/dist/bin.js --transpile-only --compiler-options '{\"module\":\"CommonJS\",\"allowImportingTsExtensions\":true}' scripts/reset_radar_sources.ts",
-    "suggest:content": "node node_modules/ts-node/dist/bin.js --transpile-only --compiler-options '{\"module\":\"CommonJS\",\"allowImportingTsExtensions\":true}' scripts/generate_suggestions.ts"
+    "suggest:content": "node node_modules/ts-node/dist/bin.js --transpile-only --compiler-options '{\"module\":\"CommonJS\",\"allowImportingTsExtensions\":true}' scripts/generate_suggestions.ts",
+    "qc:signals": "node node_modules/ts-node/dist/bin.js --transpile-only --compiler-options '{\"module\":\"CommonJS\",\"allowImportingTsExtensions\":true}' scripts/run_signal_qc.ts",
+    "test:ingestion": "node node_modules/ts-node/dist/bin.js --transpile-only --compiler-options '{\"module\":\"CommonJS\",\"allowImportingTsExtensions\":true}' scripts/test_ingestion_isolation.ts",
+    "test:qc": "node node_modules/ts-node/dist/bin.js --transpile-only --compiler-options '{\"module\":\"CommonJS\",\"allowImportingTsExtensions\":true}' scripts/test_qc_isolation.ts",
+    "test:drafting": "node node_modules/ts-node/dist/bin.js --transpile-only --compiler-options '{\"module\":\"CommonJS\",\"allowImportingTsExtensions\":true}' scripts/test_drafting_isolation.ts"
   },
   "devDependencies": {
     "dotenv": "^16.4.5",
