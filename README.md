@@ -1,12 +1,40 @@
 # SoundsLikeAI
 
-Autonomous content operating system for persona‑driven B2B teams.
+**Autonomous content operating system for persona‑driven B2B teams.**  
+Turn real inputs into credible drafts — fast, repeatable, and aligned to a persona’s voice.
 
-## What It Does
-- Collects inputs from RSS, bookmarks, and knowledge sources (books/podcasts).
-- Filters and scores for relevance.
-- Generates persona‑aligned drafts.
-- Routes drafts to review and publishing workflows.
+## About
+SoundsLikeAI helps teams publish consistently without sounding generic.  
+It ingests real sources (RSS, bookmarks, books, podcasts), filters for relevance, and produces drafts tailored to a persona’s style.  
+The goal is a daily loop: **collect → qualify → draft → review → publish**.
+
+## System Overview
+```mermaid
+flowchart LR
+  A["Sources: RSS, Bookmarks, Books, Podcasts"] --> B["Ingestion"]
+  B --> C["Quality Control"]
+  C --> D["Draft Generation (LLM)"]
+  D --> E["Review / Approval"]
+  E --> F["Publishing"]
+  E --> G["Feedback Events"]
+  G --> C
+```
+
+## Data Flow (Core Tables)
+```mermaid
+flowchart LR
+  S["radar_sources"] --> SI["signal_items (raw/queued)"]
+  SI --> F["fragments"]
+  F --> D["drafts"]
+  D --> P["published_posts"]
+  D --> FE["feedback_events"]
+
+  KB["knowledge_base (books/podcasts)"] --> D
+  B["bookmarks"] --> F
+```
+
+## Value in One Line
+Collect signal‑quality inputs, turn them into persona‑aligned drafts, and ship faster than manual content ops.
 
 ## Architecture Rules
 - One canonical data model.
@@ -95,6 +123,11 @@ DRAFT_MAX_ITEMS=10
 - `packages/*`: shared packages (db, ai, pipeline, scrapers, publisher)
 - `trigger/`: Trigger.dev jobs
 - `docs/`: specs and project management
+
+## Roadmap Snapshot
+- Close one full loop: **signal → draft → review → publish**
+- Harden QC so only high‑signal items reach drafting
+- Expand sources and automate scheduling
 
 ## Docs
 - `docs/BACKEND_BUILD.md`
