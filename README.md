@@ -1,8 +1,14 @@
 # SoundsLikeAI
 
-Clean rebuild with strict architecture and a stable database contract.
+Autonomous content operating system for persona‑driven B2B teams.
 
-## Principles
+## What It Does
+- Collects inputs from RSS, bookmarks, and knowledge sources (books/podcasts).
+- Filters and scores for relevance.
+- Generates persona‑aligned drafts.
+- Routes drafts to review and publishing workflows.
+
+## Architecture Rules
 - One canonical data model.
 - Database changes only via migrations.
 - Schema contract enforced at startup and in CI.
@@ -14,13 +20,14 @@ Clean rebuild with strict architecture and a stable database contract.
 - No Python/Alembic backend is used in this project.
 
 ## Quick Start (MVP)
-1. Copy `.env.example` to `.env` and fill in Supabase plus one LLM key. Set `TELEGRAM_BOT_DISABLED=true` to run API-only. Optional: set `WHISPER_SERVICE_URL` for voice ingestion.
+1. Copy `.env.example` to `.env` and fill in Supabase plus one LLM key.
 2. Install deps: `npm install`.
 3. Validate schema: `npm run schema:guard`.
-4. Seed a profile: `npm run seed:profile` (set `SEED_*` values first; you can also set `SEED_AUTH_EMAIL` to auto-create an auth user).
+4. Seed a profile: `npm run seed:profile` (set `SEED_*` values first).
 5. Run the API: `npm run dev -- --filter @sla/bot`.
-6. Open the web console at `http://localhost:3001/ui`.
-7. Ingest content via the API (set `API_KEY` or `INGEST_API_KEY` for auth):
+6. Open the web console at [http://localhost:3001/ui](http://localhost:3001/ui).
+
+Ingest a text fragment:
 ```bash
 curl -X POST http://localhost:3001/ingest \
   -H "Content-Type: application/json" \
@@ -28,16 +35,42 @@ curl -X POST http://localhost:3001/ingest \
   -d '{
     "user_id": "<profile-uuid>",
     "type": "text",
-    "raw_content": "Draft me a post about today's launch."
+    "raw_content": "Draft me a post about today’s launch."
   }'
 ```
-8. Fetch drafts:
+
+Fetch drafts:
 ```bash
 curl "http://localhost:3001/drafts?user_id=<profile-uuid>" \
   -H "x-api-key: $API_KEY"
 ```
 
-Telegram is optional. To enable it later, set `TELEGRAM_BOT_TOKEN` and `TELEGRAM_BOT_DISABLED=false`.
+Telegram is optional. To enable it, set `TELEGRAM_BOT_TOKEN` and `TELEGRAM_BOT_DISABLED=false`.
+
+## Environment (LLM)
+```
+GROQ_API_KEY=
+GEMINI_API_KEY=
+GEMINI_API_KEYS=
+GEMINI_MODEL=gemini-2.5-flash
+MISTRAL_API_KEY=
+OPENROUTER_API_KEY=
+```
+
+## Knowledge Ingestion (Books + Podcasts)
+Books (PDF or text file):
+```bash
+npm run ingest:book -- --file /path/to/book.pdf --title "Book Title" --author "Author Name"
+```
+
+Podcasts (RSS feed + Whisper):
+```bash
+npm run ingest:podcast -- --feed "https://lexfridman.com/feed/podcast/" --name "Lex Fridman Podcast" --episodes 2
+```
+
+Requirements:
+- `EMBEDDINGS_SERVICE_URL` must be set.
+- `WHISPER_SERVICE_URL` must be set for podcasts.
 
 ## Radar Controls (Env)
 ```
@@ -57,7 +90,7 @@ QC_SCORE_THRESHOLD=60
 DRAFT_MAX_ITEMS=10
 ```
 
-## Structure (monorepo)
+## Repo Structure
 - `apps/bot/`: Telegram bot + Hono API
 - `packages/*`: shared packages (db, ai, pipeline, scrapers, publisher)
 - `trigger/`: Trigger.dev jobs
